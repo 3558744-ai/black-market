@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BLACK MARKET : ONE ROOM</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#171717;
+      color:white;
+    }
+
+    header{
+      position:relative;
+      text-align:center;
+      padding:20px;
+      border-bottom:3px solid #ff4060;
+    }
+
+    header h1{
+      font-size:48px;
+      font-weight:900;
+    }
+
+    header p{
+      margin-top:15px;
+      font-size:18px;
+      color:#ccc;
+    }
+
+    .mode-buttons{
+      position:absolute;
+      left:20px;
+      top:20px;
+      display:flex;
+      gap:10px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:420px 1fr;
+      gap:20px;
+      padding:20px;
+    }
+
+    .panel{
+      background:#272727;
+      border-radius:10px;
+      padding:20px;
+    }
+
+    .panel h2{
+      margin-bottom:25px;
+      font-size:34px;
+    }
+
+    .timer{
+      color:#ff5070;
+      font-size:42px;
+      font-weight:900;
+    }
+
+    button{
+      border:none;
+      cursor:pointer;
+      color:white;
+      border-radius:8px;
+      font-weight:800;
+      transition:0.15s;
+    }
+
+    button:hover{
+      transform:translateY(-2px);
+    }
+
+    .mode-btn{
+      background:#596174;
+      padding:10px 16px;
+    }
+
+    .round-btn{
+      width:100%;
+      margin-top:14px;
+      background:#ff4060;
+      padding:16px;
+      font-size:16px;
+    }
+
+    .yellow{
+      background:#f4ab22;
+    }
+
+    .green{
+      background:#1fd56e;
+    }
+
+    .team-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+    }
+
+    .team-card{
+      background:#323232;
+      border:1px solid #444;
+      border-radius:10px;
+      padding:20px;
+    }
+
+    .team-card h3{
+      color:#ffd24d;
+      font-size:32px;
+      margin-bottom:20px;
+    }
+
+    .team-card p{
+      margin-top:10px;
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .inventory{
+      display:inline-block;
+      background:#677287;
+      padding:8px 12px;
+      border-radius:999px;
+      margin-right:6px;
+      margin-top:6px;
+    }
+
+    .input-row{
+      margin-top:18px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    input{
+      padding:12px;
+      border:none;
+      border-radius:6px;
+      background:#555;
+      color:white;
+      width:120px;
+    }
+
+    .bid-btn{
+      background:#ff4060;
+      padding:12px 20px;
+    }
+
+    .small-btn{
+      background:#677287;
+      padding:10px 14px;
+    }
+
+    .highest-box{
+      margin-top:30px;
+      background:#202020;
+      padding:20px;
+      border-radius:8px;
+    }
+
+    .highest-price{
+      color:#00d785;
+      font-size:32px;
+      font-weight:900;
+    }
+
+    #teamSelectScreen{
+      display:none;
+      padding:60px;
+      text-align:center;
+    }
+
+    #teamSelectScreen h1{
+      font-size:54px;
+      margin-bottom:40px;
+    }
+
+    .team-select-buttons{
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .team-select-buttons button{
+      background:#ff4060;
+      padding:20px 34px;
+      font-size:26px;
+    }
+
+    #userTeamScreen{
+      display:none;
+      max-width:800px;
+      margin:auto;
+      padding:40px;
+    }
+
+    .user-box{
+      background:#272727;
+      border-radius:10px;
+      padding:30px;
+    }
+
+    .user-box h2{
+      font-size:48px;
+      margin-bottom:25px;
+      color:#ffd24d;
+    }
+
+    .user-box p{
+      margin-top:15px;
+      font-size:22px;
+      font-weight:800;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="mode-buttons">
+    <button class="mode-btn" onclick="switchMode('admin')">
+      🛠 관리자 모드
+    </button>
+
+    <button class="mode-btn" onclick="switchMode('user')">
+      👤 사용자 모드
+    </button>
+  </div>
+
+  <h1>🖤 BLACK MARKET : ONE ROOM 🖤</h1>
+  <p>건성건성 가족 주차 게임 시스템</p>
+
+</header>
+
+<div id="teamSelectScreen">
+
+  <h1>팀 선택</h1>
+
+  <div class="team-select-buttons">
+    <button onclick="selectTeam('A가족')">A가족</button>
+    <button onclick="selectTeam('B가족')">B가족</button>
+    <button onclick="selectTeam('C가족')">C가족</button>
+    <button onclick="selectTeam('D가족')">D가족</button>
+  </div>
+
+</div>
+
+<div id="userTeamScreen">
+
+  <div class="user-box">
+
+    <h2 id="userTeamName">A가족</h2>
+
+    <p>
+      💰 보유 현금:
+      <span id="userCash">0</span> 원
+    </p>
+
+    <div style="margin-top:25px;">
+      <h3>📦 보유 아이템</h3>
+      <div id="userInventory"></div>
+    </div>
+
+    <div style="margin-top:30px;">
+      <h3>💸 입찰하기</h3>
+
+      <div class="input-row">
+        <input id="userBidInput" type="number" placeholder="입찰 금액">
+        <button class="bid-btn" onclick="submitUserBid()">
+          입찰
+        </button>
+      </div>
+    </div>
+
+    <div style="margin-top:30px;">
+      <button class="small-btn" onclick="backToSelect()">
+        ← 팀 다시 선택
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="adminLayout" class="layout">
+
+  <div class="panel">
+
+    <h2>🎮 진행자 마스터 패널</h2>
+
+    <p>
+      현재 라운드:
+      <span id="roundText">Round 1 | 오픈 경매</span>
+    </p>
+
+    <div style="margin-top:25px;">
+      남은 시간:
+      <div id="timer" class="timer">10:00</div>
+    </div>
+
+    <div style="margin-top:35px;">
+
+      <button class="round-btn">R1: 오픈 경매</button>
+      <button class="round-btn">R2: 암시장 거래</button>
+      <button class="round-btn yellow">R3: 경찰 단속</button>
+      <button class="round-btn">R4: 블랙 경매</button>
+      <button class="round-btn">R5: 최후의 거래</button>
+      <button class="round-btn green">🏆 최종 결과 공개</button>
+
+    </div>
+
+    <div class="highest-box">
+
+      <h3>🏛 실시간 익명 입찰 현황</h3>
+
+      <p style="margin-top:18px;">
+        최고 입찰가:
+      </p>
+
+      <div id="highestBid" class="highest-price">
+        0 원
+      </div>
+
+      <p style="margin-top:15px;">
+        최고 입찰팀:
+        <span id="highestTeam">없음</span>
+      </p>
+
+    </div>
+
+  </div>
+
+  <div class="panel">
+
+    <h2>👥 가족 본부 실시간 상태판 (4개 팀)</h2>
+
+    <div id="teamGrid" class="team-grid"></div>
+
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+
+import {
+  getDatabase,
+  ref,
+  set,
+  update,
+  onValue,
+  get
+}
+from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBolb_KOy45aJ60PLrL5RYXqTCsmoWW09g",
+  authDomain: "black-48f1e.firebaseapp.com",
+  databaseURL: "https://black-48f1e-default-rtdb.firebaseio.com",
+  projectId: "black-48f1e",
+  storageBucket: "black-48f1e.firebasestorage.app",
+  messagingSenderId: "638367283464",
+  appId: "1:638367283464:web:bfa70b2ef808564d6814bd",
+  measurementId: "G-QB4F50LCPD"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const roomRef = ref(db, "rooms/main");
+
+const defaultData = {
+  highestBid: {
+    amount: 0,
+    team: "없음"
+  },
+
+  teams: {
+    "A가족":{
+      cash:500000,
+      inventory:["비밀 다이아"]
+    },
+
+    "B가족":{
+      cash:500000,
+      inventory:["비어 있음"]
+    },
+
+    "C가족":{
+      cash:500000,
+      inventory:["비어 있음"]
+    },
+
+    "D가족":{
+      cash:500000,
+      inventory:["비어 있음"]
+    }
+  }
+};
+
+let currentData = defaultData;
+let selectedTeam = null;
+
+async function init(){
+
+  const snap = await get(roomRef);
+
+  if(!snap.exists()){
+    await set(roomRef, defaultData);
+  }
+
+}
+
+function money(v){
+  return Number(v).toLocaleString("ko-KR");
+}
+
+function render(data){
+
+  currentData = data;
+
+  document.getElementById("highestBid").textContent =
+    money(data.highestBid.amount) + " 원";
+
+  document.getElementById("highestTeam").textContent =
+    data.highestBid.team;
+
+  const grid = document.getElementById("teamGrid");
+
+  grid.innerHTML = "";
+
+  Object.entries(data.teams).forEach(([name,team])=>{
+
+    const card = document.createElement("div");
+
+    card.className = "team-card";
+
+    card.innerHTML = `
+      <h3>${name}</h3>
+
+      <p>💰 보유 현금: ${money(team.cash)} 원</p>
+
+      <p>
+        💸 현재 최고 입찰:
+        ${data.highestBid.team === name
+          ? money(data.highestBid.amount)+" 원"
+          : "-"
+        }
+      </p>
+
+      <div style="margin-top:18px;">
+        ${
+          team.inventory.map(item=>
+            `<span class="inventory">${item}</span>`
+          ).join("")
+        }
+      </div>
+
+      <div class="input-row">
+
+        <input
+          id="bid-${name}"
+          type="number"
+          placeholder="입찰금액"
+        >
+
+        <button
+          class="bid-btn"
+          onclick="placeBid('${name}')"
+        >
+          입찰
+        </button>
+
+      </div>
+    `;
+
+    grid.appendChild(card);
+
+  });
+
+  renderUser();
+
+}
+
+function renderUser(){
+
+  if(!selectedTeam) return;
+
+  const team = currentData.teams[selectedTeam];
+
+  document.getElementById("userTeamName").textContent =
+    selectedTeam;
+
+  document.getElementById("userCash").textContent =
+    money(team.cash);
+
+  const inventory = document.getElementById("userInventory");
+
+  inventory.innerHTML = "";
+
+  team.inventory.forEach(item=>{
+
+    const span = document.createElement("span");
+
+    span.className = "inventory";
+
+    span.textContent = item;
+
+    inventory.appendChild(span);
+
+  });
+
+}
+
+window.placeBid = async function(team){
+
+  const amount =
+    Number(document.getElementById(`bid-${team}`).value);
+
+  if(amount <= currentData.highestBid.amount){
+    alert("현재 최고 입찰가보다 높아야 합니다.");
+    return;
+  }
+
+  await update(roomRef,{
+    highestBid:{
+      amount,
+      team
+    }
+  });
+
+};
+
+window.submitUserBid = async function(){
+
+  const amount =
+    Number(document.getElementById("userBidInput").value);
+
+  if(amount <= currentData.highestBid.amount){
+    alert("현재 최고 입찰가보다 높아야 합니다.");
+    return;
+  }
+
+  await update(roomRef,{
+    highestBid:{
+      amount,
+      team:selectedTeam
+    }
+  });
+
+};
+
+window.switchMode = function(mode){
+
+  if(mode === "admin"){
+
+    document.getElementById("adminLayout").style.display = "grid";
+
+    document.getElementById("teamSelectScreen").style.display = "none";
+
+    document.getElementById("userTeamScreen").style.display = "none";
+
+  }
+
+  else{
+
+    document.getElementById("adminLayout").style.display = "none";
+
+    document.getElementById("teamSelectScreen").style.display = "block";
+
+  }
+
+};
+
+window.selectTeam = function(team){
+
+  selectedTeam = team;
+
+  document.getElementById("teamSelectScreen").style.display = "none";
+
+  document.getElementById("userTeamScreen").style.display = "block";
+
+  renderUser();
+
+};
+
+window.backToSelect = function(){
+
+  document.getElementById("userTeamScreen").style.display = "none";
+
+  document.getElementById("teamSelectScreen").style.display = "block";
+
+};
+
+onValue(roomRef,(snapshot)=>{
+
+  const data = snapshot.val();
+
+  if(data){
+    render(data);
+  }
+
+});
+
+init();
+
+</script>
+
+</body>
+</html>
