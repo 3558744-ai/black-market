@@ -92,13 +92,6 @@
     .blue{ background:#3f87ff; }
     .gray{ background:#777; }
 
-    .timer{
-      font-size:42px;
-      font-weight:900;
-      color:#ff5070;
-      margin-top:10px;
-    }
-
     .highest-box{
       margin-top:30px;
       background:#1f1f1f;
@@ -124,6 +117,7 @@
       border-radius:10px;
       border:1px solid #444;
       padding:20px;
+      min-height:220px;
     }
 
     .team-card h3{
@@ -210,11 +204,6 @@
       padding:30px;
     }
 
-    .user-box h2{
-      font-size:44px;
-      margin-top:10px;
-    }
-
     #resultScreen{
       display:none;
       padding:40px;
@@ -248,17 +237,10 @@
       word-break:break-word;
     }
 
-    .mobile-item{
-      color:#00d785;
-    }
+    .mobile-item{ color:#00d785; }
+    .mobile-cash{ color:#ffd34c; }
 
-    .mobile-cash{
-      color:#ffd34c;
-    }
-
-    /* 모바일 사용자 모드 최적화 */
     @media (max-width: 768px){
-
       body{
         background:#121212;
       }
@@ -326,11 +308,6 @@
         padding:18px;
         border-radius:18px;
         background:#242424;
-      }
-
-      .user-box h2{
-        font-size:30px;
-        line-height:1.25;
       }
 
       .mobile-card{
@@ -481,11 +458,6 @@
       <span id="roundText">R1 : 오픈 경매</span>
     </p>
 
-    <div style="margin-top:20px;">
-      남은 시간:
-      <div class="timer">10:00</div>
-    </div>
-
     <div style="margin-top:30px;">
       <button class="round-btn" onclick="changeRound('R1 : 오픈 경매')">R1 : 오픈 경매</button>
       <button class="round-btn" onclick="changeRound('R2 : 암시장 거래')">R2 : 암시장 거래</button>
@@ -521,7 +493,7 @@
   </div>
 
   <div class="panel">
-    <h2>👥 가족 본부 실시간 상태판</h2>
+    <h2>👥 가족 본부 실시간 상태판 (4개 팀)</h2>
     <div id="teamGrid" class="team-grid"></div>
   </div>
 </div>
@@ -620,7 +592,11 @@ function render(data){
   const grid = document.getElementById("teamGrid");
   grid.innerHTML = "";
 
-  Object.entries(data.teams).forEach(([name,team])=>{
+  const orderedTeams = ["A가족", "B가족", "C가족", "D가족"];
+
+  orderedTeams.forEach(name=>{
+    const team = data.teams[name] || { cash:500000, inventory:[] };
+
     const card = document.createElement("div");
     card.className = "team-card";
 
@@ -638,9 +614,13 @@ function render(data){
         }
       </p>
 
-      <div style="margin-top:18px;">
+      <p>
+        📦 보유 아이템:
+      </p>
+
+      <div style="margin-top:12px;">
         ${
-          team.inventory.length
+          team.inventory && team.inventory.length
           ? team.inventory.map(item=>`<span class="inventory">${item}</span>`).join("")
           : `<span style="color:#aaa;">보유 아이템 없음</span>`
         }
