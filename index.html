@@ -6,364 +6,79 @@
   <title>BLACK MARKET : ONE ROOM</title>
 
   <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
-    }
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
+    body{background:#171717;color:white;}
+    header{position:relative;text-align:center;padding:20px;border-bottom:3px solid #ff4060;}
+    header h1{font-size:46px;font-weight:900;}
+    header p{margin-top:12px;color:#bbb;}
 
-    body{
-      background:#171717;
-      color:white;
-    }
+    .mode-buttons{position:absolute;left:20px;top:20px;display:flex;gap:10px;flex-wrap:wrap;}
+    button{border:none;cursor:pointer;border-radius:8px;color:white;font-weight:800;transition:0.15s;}
+    button:hover{transform:translateY(-2px);}
 
-    header{
-      position:relative;
-      text-align:center;
-      padding:20px;
-      border-bottom:3px solid #ff4060;
-    }
+    .mode-btn{background:#5e6575;padding:10px 14px;}
+    .layout{display:grid;grid-template-columns:420px 1fr;gap:20px;padding:20px;}
+    .panel{background:#292929;border-radius:10px;padding:20px;}
+    .panel h2{margin-bottom:24px;font-size:32px;}
 
-    header h1{
-      font-size:46px;
-      font-weight:900;
-    }
+    .round-btn{width:100%;margin-top:14px;padding:16px;background:#ff4060;font-size:16px;}
+    .green{background:#1dd470;}
+    .blue{background:#3f87ff;}
+    .gray{background:#777;}
 
-    header p{
-      margin-top:12px;
-      color:#bbb;
-    }
+    .highest-box{margin-top:30px;background:#1f1f1f;border-radius:8px;padding:20px;}
+    .highest-price{font-size:32px;color:#00d785;font-weight:900;margin-top:10px;}
 
-    .mode-buttons{
-      position:absolute;
-      left:20px;
-      top:20px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+    .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+    .team-card{background:#333;border-radius:10px;border:1px solid #444;padding:20px;min-height:220px;}
+    .team-card h3{font-size:30px;color:#ffd34c;margin-bottom:20px;}
+    .team-card p{margin-top:10px;font-size:18px;font-weight:700;}
 
-    button{
-      border:none;
-      cursor:pointer;
-      border-radius:8px;
-      color:white;
-      font-weight:800;
-      transition:0.15s;
-    }
+    .inventory{display:inline-block;background:#697487;padding:8px 12px;border-radius:999px;margin-top:8px;margin-right:6px;}
+    .input-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;}
+    input{background:#555;border:none;color:white;padding:12px;border-radius:6px;width:130px;}
+    .bid-btn{background:#ff4060;padding:12px 18px;}
+    .small-btn{background:#697487;padding:10px 14px;}
 
-    button:hover{
-      transform:translateY(-2px);
-    }
+    #teamSelectScreen{display:none;text-align:center;padding:80px;}
+    #teamSelectScreen h1{font-size:54px;margin-bottom:40px;}
+    .team-select-buttons{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+    .team-select-buttons button{background:#ff4060;padding:22px 36px;font-size:26px;}
 
-    .mode-btn{
-      background:#5e6575;
-      padding:10px 14px;
-    }
+    #userTeamScreen{display:none;max-width:900px;margin:auto;padding:40px;}
+    .user-box{background:#292929;border-radius:10px;padding:30px;}
 
-    .layout{
-      display:grid;
-      grid-template-columns:420px 1fr;
-      gap:20px;
-      padding:20px;
-    }
+    #resultScreen{display:none;padding:40px;}
+    .result-title{text-align:center;font-size:52px;margin-bottom:40px;}
 
-    .panel{
-      background:#292929;
-      border-radius:10px;
-      padding:20px;
-    }
-
-    .panel h2{
-      margin-bottom:24px;
-      font-size:32px;
-    }
-
-    .round-btn{
-      width:100%;
-      margin-top:14px;
-      padding:16px;
-      background:#ff4060;
-      font-size:16px;
-    }
-
-    .green{ background:#1dd470; }
-    .blue{ background:#3f87ff; }
-    .gray{ background:#777; }
-
-    .highest-box{
-      margin-top:30px;
-      background:#1f1f1f;
-      border-radius:8px;
-      padding:20px;
-    }
-
-    .highest-price{
-      font-size:32px;
-      color:#00d785;
-      font-weight:900;
-      margin-top:10px;
-    }
-
-    .team-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-    }
-
-    .team-card{
-      background:#333;
-      border-radius:10px;
-      border:1px solid #444;
-      padding:20px;
-      min-height:220px;
-    }
-
-    .team-card h3{
-      font-size:30px;
-      color:#ffd34c;
-      margin-bottom:20px;
-    }
-
-    .team-card p{
-      margin-top:10px;
-      font-size:18px;
-      font-weight:700;
-    }
-
-    .inventory{
-      display:inline-block;
-      background:#697487;
-      padding:8px 12px;
-      border-radius:999px;
-      margin-top:8px;
-      margin-right:6px;
-    }
-
-    .input-row{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:20px;
-    }
-
-    input{
-      background:#555;
-      border:none;
-      color:white;
-      padding:12px;
-      border-radius:6px;
-      width:130px;
-    }
-
-    .bid-btn{
-      background:#ff4060;
-      padding:12px 18px;
-    }
-
-    .small-btn{
-      background:#697487;
-      padding:10px 14px;
-    }
-
-    #teamSelectScreen{
-      display:none;
-      text-align:center;
-      padding:80px;
-    }
-
-    #teamSelectScreen h1{
-      font-size:54px;
-      margin-bottom:40px;
-    }
-
-    .team-select-buttons{
-      display:flex;
-      justify-content:center;
-      gap:20px;
-      flex-wrap:wrap;
-    }
-
-    .team-select-buttons button{
-      background:#ff4060;
-      padding:22px 36px;
-      font-size:26px;
-    }
-
-    #userTeamScreen{
-      display:none;
-      max-width:900px;
-      margin:auto;
-      padding:40px;
-    }
-
-    .user-box{
-      background:#292929;
-      border-radius:10px;
-      padding:30px;
-    }
-
-    #resultScreen{
-      display:none;
-      padding:40px;
-    }
-
-    .result-title{
-      text-align:center;
-      font-size:52px;
-      margin-bottom:40px;
-    }
-
-    .mobile-card{
-      background:#202020;
-      border:1px solid #3c3c3c;
-      border-radius:16px;
-      padding:18px;
-      margin-top:18px;
-    }
-
-    .mobile-label{
-      font-size:14px;
-      color:#aaa;
-      margin-bottom:8px;
-      font-weight:700;
-    }
-
-    .mobile-value{
-      font-size:26px;
-      font-weight:900;
-      color:#fff;
-      word-break:break-word;
-    }
-
-    .mobile-item{ color:#00d785; }
-    .mobile-cash{ color:#ffd34c; }
+    .mobile-card{background:#202020;border:1px solid #3c3c3c;border-radius:16px;padding:18px;margin-top:18px;}
+    .mobile-label{font-size:14px;color:#aaa;margin-bottom:8px;font-weight:700;}
+    .mobile-value{font-size:26px;font-weight:900;color:#fff;word-break:break-word;}
+    .mobile-item{color:#00d785;}
+    .mobile-cash{color:#ffd34c;}
 
     @media (max-width: 768px){
-      body{
-        background:#121212;
-      }
+      header{padding:14px 10px 18px;}
+      header h1{font-size:22px;margin-top:44px;line-height:1.25;}
+      header p{font-size:12px;margin-top:8px;}
+      .mode-buttons{left:8px;top:8px;right:8px;justify-content:center;gap:6px;}
+      .mode-btn{padding:8px 9px;font-size:12px;}
+      #historyToggleBtn{display:none;}
 
-      header{
-        padding:14px 10px 18px;
-      }
+      #teamSelectScreen{padding:24px 16px;}
+      #teamSelectScreen h1{font-size:30px;margin-bottom:24px;}
+      .team-select-buttons{flex-direction:column;gap:14px;}
+      .team-select-buttons button{width:100%;padding:20px;font-size:22px;border-radius:14px;}
 
-      header h1{
-        font-size:22px;
-        margin-top:44px;
-        line-height:1.25;
-      }
-
-      header p{
-        font-size:12px;
-        margin-top:8px;
-      }
-
-      .mode-buttons{
-        position:absolute;
-        left:8px;
-        top:8px;
-        right:8px;
-        justify-content:center;
-        gap:6px;
-      }
-
-      .mode-btn{
-        padding:8px 9px;
-        font-size:12px;
-      }
-
-      #historyToggleBtn{
-        display:none;
-      }
-
-      #teamSelectScreen{
-        padding:24px 16px;
-      }
-
-      #teamSelectScreen h1{
-        font-size:30px;
-        margin-bottom:24px;
-      }
-
-      .team-select-buttons{
-        flex-direction:column;
-        gap:14px;
-      }
-
-      .team-select-buttons button{
-        width:100%;
-        padding:20px;
-        font-size:22px;
-        border-radius:14px;
-      }
-
-      #userTeamScreen{
-        padding:14px;
-        max-width:100%;
-      }
-
-      .user-box{
-        padding:18px;
-        border-radius:18px;
-        background:#242424;
-      }
-
-      .mobile-card{
-        padding:16px;
-        border-radius:16px;
-      }
-
-      .mobile-value{
-        font-size:24px;
-      }
-
-      .input-row{
-        flex-direction:column;
-        gap:12px;
-      }
-
-      input{
-        width:100%;
-        font-size:20px;
-        padding:18px;
-        border-radius:12px;
-      }
-
-      .bid-btn{
-        width:100%;
-        padding:18px;
-        font-size:20px;
-        border-radius:12px;
-      }
-
-      .small-btn{
-        width:100%;
-        padding:15px;
-        font-size:16px;
-        border-radius:12px;
-      }
-
-      .inventory{
-        font-size:15px;
-        padding:9px 12px;
-        margin-top:8px;
-      }
-
-      .layout{
-        display:block;
-        padding:12px;
-      }
-
-      .panel{
-        padding:16px;
-        margin-bottom:14px;
-      }
-
-      .team-grid{
-        grid-template-columns:1fr;
-      }
+      #userTeamScreen{padding:14px;max-width:100%;}
+      .user-box{padding:18px;border-radius:18px;background:#242424;}
+      .mobile-value{font-size:24px;}
+      .input-row{flex-direction:column;gap:12px;}
+      input{width:100%;font-size:20px;padding:18px;border-radius:12px;}
+      .bid-btn,.small-btn{width:100%;padding:18px;font-size:18px;border-radius:12px;}
+      .layout{display:block;padding:12px;}
+      .panel{padding:16px;margin-bottom:14px;}
+      .team-grid{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -374,7 +89,7 @@
   <div class="mode-buttons">
     <button class="mode-btn" onclick="switchMode('admin')">🛠 관리자</button>
     <button class="mode-btn" onclick="switchMode('user')">👤 사용자</button>
-    <button id="historyToggleBtn" class="mode-btn blue" onclick="toggleHistoryView()">👁 낙찰 공개 ON</button>
+    <button id="historyToggleBtn" class="mode-btn blue" onclick="toggleHistoryView()">👁 낙찰 팀 공개 ON</button>
   </div>
 
   <h1>🖤 BLACK MARKET : ONE ROOM 🖤</h1>
@@ -383,7 +98,6 @@
 
 <div id="teamSelectScreen">
   <h1>팀 선택</h1>
-
   <div class="team-select-buttons">
     <button onclick="selectTeam('A가족')">A가족</button>
     <button onclick="selectTeam('B가족')">B가족</button>
@@ -412,9 +126,7 @@
 
     <div class="mobile-card">
       <div class="mobile-label">보유 현금</div>
-      <div class="mobile-value mobile-cash">
-        <span id="userCash">0</span> 원
-      </div>
+      <div class="mobile-value mobile-cash"><span id="userCash">0</span> 원</div>
     </div>
 
     <div class="mobile-card">
@@ -422,14 +134,8 @@
       <div id="userInventory"></div>
     </div>
 
-    <div id="historyBox" class="mobile-card" style="display:none;">
-      <div class="mobile-label">최근 낙찰 정보</div>
-      <div id="historyList"></div>
-    </div>
-
     <div class="mobile-card">
       <div class="mobile-label">입찰하기</div>
-
       <div class="input-row">
         <input id="userBidInput" type="number" placeholder="입찰 금액 입력">
         <button class="bid-btn" onclick="submitUserBid()">입찰하기</button>
@@ -450,7 +156,6 @@
 
 <div id="adminLayout" class="layout">
   <div class="panel">
-
     <h2>🎮 진행자 마스터 패널</h2>
 
     <p>
@@ -469,7 +174,6 @@
 
     <div style="margin-top:35px;">
       <h3>🎁 현재 경매 물품 설정</h3>
-
       <div class="input-row">
         <input id="itemInput" type="text" placeholder="경매 물품 입력" style="width:220px;">
         <button class="bid-btn" onclick="setAuctionItem()">물품 설정</button>
@@ -478,18 +182,11 @@
     </div>
 
     <div class="highest-box">
-      <h3>🏛 실시간 익명 입찰 현황</h3>
-
+      <h3>🏛 실시간 입찰 현황</h3>
       <p style="margin-top:20px;">최고 입찰가</p>
-
       <div id="highestBid" class="highest-price">0 원</div>
-
-      <p style="margin-top:15px;">
-        최고 입찰팀:
-        <span id="highestTeam">없음</span>
-      </p>
+      <p style="margin-top:15px;">최고 입찰팀: <span id="highestTeam">없음</span></p>
     </div>
-
   </div>
 
   <div class="panel">
@@ -528,8 +225,9 @@ const roomRef = ref(db,"rooms/main");
 const defaultData = {
   round:"R1 : 오픈 경매",
   currentItem:"없음",
-  historyVisible:true,
+  historyVisible:false,
   auctionHistory:[],
+  lastAward:null,
   highestBid:{
     amount:0,
     team:"없음"
@@ -544,58 +242,65 @@ const defaultData = {
 
 let currentData = defaultData;
 let selectedTeam = null;
+let lastSeenAwardId = localStorage.getItem("lastSeenAwardId") || null;
 
 async function init(){
   const snap = await get(roomRef);
 
   if(!snap.exists()){
     await set(roomRef,defaultData);
+    return;
   }
+
+  const data = snap.val();
+  const merged = {
+    ...defaultData,
+    ...data,
+    teams:{
+      ...defaultData.teams,
+      ...(data.teams || {})
+    }
+  };
+
+  await update(roomRef, merged);
 }
 
 function money(v){
-  return Number(v).toLocaleString("ko-KR");
+  return Number(v || 0).toLocaleString("ko-KR");
 }
 
 function render(data){
-  currentData = data;
+  currentData = {
+    ...defaultData,
+    ...data,
+    teams:{
+      ...defaultData.teams,
+      ...(data.teams || {})
+    }
+  };
 
-  document.getElementById("roundText").textContent = data.round;
-  document.getElementById("userRoundText").textContent = data.round;
-  document.getElementById("currentAuctionItem").textContent = data.currentItem;
-  document.getElementById("highestBid").textContent = money(data.highestBid.amount)+" 원";
-  document.getElementById("highestTeam").textContent = data.highestBid.team;
+  document.getElementById("roundText").textContent = currentData.round;
+  document.getElementById("userRoundText").textContent = currentData.round;
+  document.getElementById("currentAuctionItem").textContent = currentData.currentItem;
+  document.getElementById("highestBid").textContent = money(currentData.highestBid.amount)+" 원";
+  document.getElementById("highestTeam").textContent = currentData.highestBid.team;
 
-  const historyBtn = document.getElementById("historyToggleBtn");
+  document.getElementById("historyToggleBtn").textContent =
+    currentData.historyVisible ? "👁 낙찰 팀 공개 ON" : "🙈 낙찰 팀 공개 OFF";
 
-  historyBtn.textContent =
-    data.historyVisible
-    ? "👁 낙찰 공개 ON"
-    : "🙈 낙찰 공개 OFF";
+  renderAdminTeams();
+  renderUser();
+  showAwardAlertIfNeeded();
+}
 
-  document.getElementById("historyBox").style.display =
-    data.historyVisible ? "block" : "none";
-
-  const historyList = document.getElementById("historyList");
-  historyList.innerHTML = "";
-
-  const history = data.auctionHistory || [];
-
-  history.forEach(item=>{
-    const p = document.createElement("p");
-    p.style.marginTop = "10px";
-    p.style.fontWeight = "800";
-    p.innerHTML = `🏆 ${item.team} : ${item.item} (${money(item.price)} 원)`;
-    historyList.appendChild(p);
-  });
-
+function renderAdminTeams(){
   const grid = document.getElementById("teamGrid");
   grid.innerHTML = "";
 
   const orderedTeams = ["A가족", "B가족", "C가족", "D가족"];
 
   orderedTeams.forEach(name=>{
-    const team = data.teams[name] || { cash:500000, inventory:[] };
+    const team = currentData.teams[name] || { cash:500000, inventory:[] };
 
     const card = document.createElement("div");
     card.className = "team-card";
@@ -608,15 +313,13 @@ function render(data){
       <p>
         💸 현재 최고 입찰:
         ${
-          data.highestBid.team === name
-          ? money(data.highestBid.amount)+" 원"
+          currentData.highestBid.team === name
+          ? money(currentData.highestBid.amount)+" 원"
           : "-"
         }
       </p>
 
-      <p>
-        📦 보유 아이템:
-      </p>
+      <p>📦 보유 아이템:</p>
 
       <div style="margin-top:12px;">
         ${
@@ -634,8 +337,6 @@ function render(data){
 
     grid.appendChild(card);
   });
-
-  renderUser();
 }
 
 function renderUser(){
@@ -662,23 +363,54 @@ function renderUser(){
   });
 }
 
-window.placeBid = async function(team){
-  const amount = Number(document.getElementById(`bid-${team}`).value);
+function showAwardAlertIfNeeded(){
+  const award = currentData.lastAward;
+
+  if(!selectedTeam || !award || !award.id) return;
+  if(lastSeenAwardId === award.id) return;
+
+  lastSeenAwardId = award.id;
+  localStorage.setItem("lastSeenAwardId", award.id);
+
+  if(award.team === selectedTeam){
+    alert("낙찰 완료했습니다.");
+  } else {
+    if(currentData.historyVisible){
+      alert(`${award.team}에서 낙찰했습니다.`);
+    } else {
+      alert("다른 팀에서 낙찰했습니다.");
+    }
+  }
+}
+
+function canBid(team, amount){
+  if(currentData.currentItem === "없음"){
+    alert("현재 등록된 경매 물품이 없습니다.");
+    return false;
+  }
 
   if(!amount || amount <= 0){
     alert("입찰 금액을 입력하세요.");
-    return;
+    return false;
   }
 
   if(amount <= currentData.highestBid.amount){
     alert("현재 최고 입찰가보다 높아야 합니다.");
-    return;
+    return false;
   }
 
   if(amount > currentData.teams[team].cash){
     alert("보유 현금보다 큰 금액은 입찰할 수 없습니다.");
-    return;
+    return false;
   }
+
+  return true;
+}
+
+window.placeBid = async function(team){
+  const amount = Number(document.getElementById(`bid-${team}`).value);
+
+  if(!canBid(team, amount)) return;
 
   await update(roomRef,{
     highestBid:{ amount, team }
@@ -695,20 +427,7 @@ window.submitUserBid = async function(){
     return;
   }
 
-  if(!amount || amount <= 0){
-    alert("입찰 금액을 입력하세요.");
-    return;
-  }
-
-  if(amount <= currentData.highestBid.amount){
-    alert("현재 최고 입찰가보다 높아야 합니다.");
-    return;
-  }
-
-  if(amount > currentData.teams[selectedTeam].cash){
-    alert("보유 현금보다 큰 금액은 입찰할 수 없습니다.");
-    return;
-  }
+  if(!canBid(selectedTeam, amount)) return;
 
   await update(roomRef,{
     highestBid:{
@@ -719,7 +438,7 @@ window.submitUserBid = async function(){
 
   document.getElementById("userBidInput").value = "";
 
-  alert(`${selectedTeam} 팀이 ${money(amount)} 원으로 입찰했습니다.`);
+  alert(`${money(amount)} 원으로 입찰했습니다.`);
 };
 
 window.changeRound = async function(round){
@@ -748,29 +467,32 @@ window.setAuctionItem = async function(){
 window.finalizeAuction = async function(){
   const winner = currentData.highestBid.team;
 
-  if(winner === "없음"){
-    alert("입찰 팀 없음");
-    return;
-  }
-
   if(currentData.currentItem === "없음"){
     alert("현재 경매 물품이 없습니다.");
     return;
   }
 
+  if(winner === "없음"){
+    alert("입찰 팀 없음");
+    return;
+  }
+
   const item = currentData.currentItem;
+  const price = currentData.highestBid.amount;
+
   const inventory = currentData.teams[winner].inventory || [];
   inventory.push(item);
 
-  const cash = currentData.teams[winner].cash - currentData.highestBid.amount;
+  const cash = currentData.teams[winner].cash - price;
 
   const history = currentData.auctionHistory || [];
-
   history.unshift({
     team:winner,
     item,
-    price:currentData.highestBid.amount
+    price
   });
+
+  const awardId = String(Date.now());
 
   await update(roomRef,{
     [`teams/${winner}`]:{
@@ -778,6 +500,12 @@ window.finalizeAuction = async function(){
       inventory
     },
     auctionHistory:history,
+    lastAward:{
+      id:awardId,
+      team:winner,
+      item,
+      price
+    },
     highestBid:{
       amount:0,
       team:"없음"
@@ -790,10 +518,11 @@ window.finalizeAuction = async function(){
 
 window.resetGame = async function(){
   const ok = confirm("정말 게임을 초기화할까요? 모든 아이템과 입찰 기록이 사라집니다.");
-
   if(!ok) return;
 
   await set(roomRef,defaultData);
+  localStorage.removeItem("lastSeenAwardId");
+  lastSeenAwardId = null;
 
   alert("게임이 초기화되었습니다.");
 };
@@ -820,7 +549,6 @@ window.showFinalResults = function(){
     card.innerHTML = `
       <h3>${name}</h3>
       <p>💰 현금: ${money(team.cash)} 원</p>
-
       <div style="margin-top:18px;">
         ${
           team.inventory.length
