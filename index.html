@@ -11,46 +11,36 @@
     header{position:relative;text-align:center;padding:20px;border-bottom:3px solid #ff4060;}
     header h1{font-size:46px;font-weight:900;}
     header p{margin-top:12px;color:#bbb;}
-
     .mode-buttons{position:absolute;left:20px;top:20px;display:flex;gap:10px;flex-wrap:wrap;}
     button{border:none;cursor:pointer;border-radius:8px;color:white;font-weight:800;transition:0.15s;}
     button:hover{transform:translateY(-2px);}
-
     .mode-btn{background:#5e6575;padding:10px 14px;}
     .layout{display:grid;grid-template-columns:420px 1fr;gap:20px;padding:20px;}
     .panel{background:#292929;border-radius:10px;padding:20px;}
     .panel h2{margin-bottom:24px;font-size:32px;}
-
     .round-btn{width:100%;margin-top:14px;padding:16px;background:#ff4060;font-size:16px;}
     .green{background:#1dd470;}
     .blue{background:#3f87ff;}
     .gray{background:#777;}
-
     .highest-box{margin-top:30px;background:#1f1f1f;border-radius:8px;padding:20px;}
     .highest-price{font-size:32px;color:#00d785;font-weight:900;margin-top:10px;}
-
     .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
     .team-card{background:#333;border-radius:10px;border:1px solid #444;padding:20px;min-height:220px;}
     .team-card h3{font-size:30px;color:#ffd34c;margin-bottom:20px;}
     .team-card p{margin-top:10px;font-size:18px;font-weight:700;}
-
     .inventory{display:inline-block;background:#697487;padding:8px 12px;border-radius:999px;margin-top:8px;margin-right:6px;}
     .input-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;}
     input{background:#555;border:none;color:white;padding:12px;border-radius:6px;width:130px;}
     .bid-btn{background:#ff4060;padding:12px 18px;}
     .small-btn{background:#697487;padding:10px 14px;}
-
     #teamSelectScreen{display:none;text-align:center;padding:80px;}
     #teamSelectScreen h1{font-size:54px;margin-bottom:40px;}
     .team-select-buttons{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
     .team-select-buttons button{background:#ff4060;padding:22px 36px;font-size:26px;}
-
     #userTeamScreen{display:none;max-width:900px;margin:auto;padding:40px;}
     .user-box{background:#292929;border-radius:10px;padding:30px;}
-
     #resultScreen{display:none;padding:40px;}
     .result-title{text-align:center;font-size:52px;margin-bottom:40px;}
-
     .mobile-card{background:#202020;border:1px solid #3c3c3c;border-radius:16px;padding:18px;margin-top:18px;}
     .mobile-label{font-size:14px;color:#aaa;margin-bottom:8px;font-weight:700;}
     .mobile-value{font-size:26px;font-weight:900;color:#fff;word-break:break-word;}
@@ -64,12 +54,10 @@
       .mode-buttons{left:8px;top:8px;right:8px;justify-content:center;gap:6px;}
       .mode-btn{padding:8px 9px;font-size:12px;}
       #historyToggleBtn{display:none;}
-
       #teamSelectScreen{padding:24px 16px;}
       #teamSelectScreen h1{font-size:30px;margin-bottom:24px;}
       .team-select-buttons{flex-direction:column;gap:14px;}
       .team-select-buttons button{width:100%;padding:20px;font-size:22px;border-radius:14px;}
-
       #userTeamScreen{padding:14px;max-width:100%;}
       .user-box{padding:18px;border-radius:18px;background:#242424;}
       .mobile-value{font-size:24px;}
@@ -228,6 +216,7 @@ const defaultData = {
   historyVisible:false,
   auctionHistory:[],
   lastAward:null,
+  lastBidNotice:null,
   highestBid:{
     amount:0,
     team:"없음"
@@ -243,6 +232,7 @@ const defaultData = {
 let currentData = defaultData;
 let selectedTeam = null;
 let lastSeenAwardId = localStorage.getItem("lastSeenAwardId") || null;
+let lastSeenBidNoticeId = localStorage.getItem("lastSeenBidNoticeId") || null;
 
 async function init(){
   const snap = await get(roomRef);
@@ -290,6 +280,7 @@ function render(data){
 
   renderAdminTeams();
   renderUser();
+  showBidNoticeIfNeeded();
   showAwardAlertIfNeeded();
 }
 
@@ -363,6 +354,18 @@ function renderUser(){
   });
 }
 
+function showBidNoticeIfNeeded(){
+  const notice = currentData.lastBidNotice;
+
+  if(!selectedTeam || !notice || !notice.id) return;
+  if(lastSeenBidNoticeId === notice.id) return;
+
+  lastSeenBidNoticeId = notice.id;
+  localStorage.setItem("lastSeenBidNoticeId", notice.id);
+
+  alert(`입찰가가 ${money(notice.amount)} 원으로 갱신되었습니다.`);
+}
+
 function showAwardAlertIfNeeded(){
   const award = currentData.lastAward;
 
@@ -412,8 +415,15 @@ window.placeBid = async function(team){
 
   if(!canBid(team, amount)) return;
 
+  const noticeId = String(Date.now());
+
   await update(roomRef,{
-    highestBid:{ amount, team }
+    highestBid:{ amount, team },
+    lastBidNotice:{
+      id:noticeId,
+      amount,
+      team
+    }
   });
 
   alert(`${team} 팀이 ${money(amount)} 원으로 입찰했습니다.`);
@@ -429,8 +439,15 @@ window.submitUserBid = async function(){
 
   if(!canBid(selectedTeam, amount)) return;
 
+  const noticeId = String(Date.now());
+
   await update(roomRef,{
     highestBid:{
+      amount,
+      team:selectedTeam
+    },
+    lastBidNotice:{
+      id:noticeId,
       amount,
       team:selectedTeam
     }
@@ -458,7 +475,8 @@ window.setAuctionItem = async function(){
     highestBid:{
       amount:0,
       team:"없음"
-    }
+    },
+    lastBidNotice:null
   });
 
   document.getElementById("itemInput").value = "";
@@ -510,7 +528,8 @@ window.finalizeAuction = async function(){
       amount:0,
       team:"없음"
     },
-    currentItem:"없음"
+    currentItem:"없음",
+    lastBidNotice:null
   });
 
   alert(`${winner} 팀이 ${item}을(를) 낙찰 받았습니다.`);
@@ -522,7 +541,9 @@ window.resetGame = async function(){
 
   await set(roomRef,defaultData);
   localStorage.removeItem("lastSeenAwardId");
+  localStorage.removeItem("lastSeenBidNoticeId");
   lastSeenAwardId = null;
+  lastSeenBidNoticeId = null;
 
   alert("게임이 초기화되었습니다.");
 };
