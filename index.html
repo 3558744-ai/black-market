@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BLACK MARKET : ONE ROOM</title>
 
   <style>
-
     *{
       margin:0;
       padding:0;
@@ -90,17 +88,9 @@
       font-size:16px;
     }
 
-    .green{
-      background:#1dd470;
-    }
-
-    .blue{
-      background:#3f87ff;
-    }
-
-    .gray{
-      background:#777;
-    }
+    .green{ background:#1dd470; }
+    .blue{ background:#3f87ff; }
+    .gray{ background:#777; }
 
     .timer{
       font-size:42px;
@@ -236,293 +226,308 @@
       margin-bottom:40px;
     }
 
-  </style>
+    .mobile-card{
+      background:#202020;
+      border:1px solid #3c3c3c;
+      border-radius:16px;
+      padding:18px;
+      margin-top:18px;
+    }
 
+    .mobile-label{
+      font-size:14px;
+      color:#aaa;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+
+    .mobile-value{
+      font-size:26px;
+      font-weight:900;
+      color:#fff;
+      word-break:break-word;
+    }
+
+    .mobile-item{
+      color:#00d785;
+    }
+
+    .mobile-cash{
+      color:#ffd34c;
+    }
+
+    /* 모바일 사용자 모드 최적화 */
+    @media (max-width: 768px){
+
+      body{
+        background:#121212;
+      }
+
+      header{
+        padding:14px 10px 18px;
+      }
+
+      header h1{
+        font-size:22px;
+        margin-top:44px;
+        line-height:1.25;
+      }
+
+      header p{
+        font-size:12px;
+        margin-top:8px;
+      }
+
+      .mode-buttons{
+        position:absolute;
+        left:8px;
+        top:8px;
+        right:8px;
+        justify-content:center;
+        gap:6px;
+      }
+
+      .mode-btn{
+        padding:8px 9px;
+        font-size:12px;
+      }
+
+      #historyToggleBtn{
+        display:none;
+      }
+
+      #teamSelectScreen{
+        padding:24px 16px;
+      }
+
+      #teamSelectScreen h1{
+        font-size:30px;
+        margin-bottom:24px;
+      }
+
+      .team-select-buttons{
+        flex-direction:column;
+        gap:14px;
+      }
+
+      .team-select-buttons button{
+        width:100%;
+        padding:20px;
+        font-size:22px;
+        border-radius:14px;
+      }
+
+      #userTeamScreen{
+        padding:14px;
+        max-width:100%;
+      }
+
+      .user-box{
+        padding:18px;
+        border-radius:18px;
+        background:#242424;
+      }
+
+      .user-box h2{
+        font-size:30px;
+        line-height:1.25;
+      }
+
+      .mobile-card{
+        padding:16px;
+        border-radius:16px;
+      }
+
+      .mobile-value{
+        font-size:24px;
+      }
+
+      .input-row{
+        flex-direction:column;
+        gap:12px;
+      }
+
+      input{
+        width:100%;
+        font-size:20px;
+        padding:18px;
+        border-radius:12px;
+      }
+
+      .bid-btn{
+        width:100%;
+        padding:18px;
+        font-size:20px;
+        border-radius:12px;
+      }
+
+      .small-btn{
+        width:100%;
+        padding:15px;
+        font-size:16px;
+        border-radius:12px;
+      }
+
+      .inventory{
+        font-size:15px;
+        padding:9px 12px;
+        margin-top:8px;
+      }
+
+      .layout{
+        display:block;
+        padding:12px;
+      }
+
+      .panel{
+        padding:16px;
+        margin-bottom:14px;
+      }
+
+      .team-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-
   <div class="mode-buttons">
-
-    <button class="mode-btn" onclick="switchMode('admin')">
-      🛠 관리자 모드
-    </button>
-
-    <button class="mode-btn" onclick="switchMode('user')">
-      👤 사용자 모드
-    </button>
-
-    <button
-      id="historyToggleBtn"
-      class="mode-btn blue"
-      onclick="toggleHistoryView()"
-    >
-      👁 낙찰 공개 ON
-    </button>
-
+    <button class="mode-btn" onclick="switchMode('admin')">🛠 관리자</button>
+    <button class="mode-btn" onclick="switchMode('user')">👤 사용자</button>
+    <button id="historyToggleBtn" class="mode-btn blue" onclick="toggleHistoryView()">👁 낙찰 공개 ON</button>
   </div>
 
   <h1>🖤 BLACK MARKET : ONE ROOM 🖤</h1>
   <p>건성건성 가족 주차 게임 시스템</p>
-
 </header>
 
 <div id="teamSelectScreen">
-
   <h1>팀 선택</h1>
 
   <div class="team-select-buttons">
-
     <button onclick="selectTeam('A가족')">A가족</button>
     <button onclick="selectTeam('B가족')">B가족</button>
     <button onclick="selectTeam('C가족')">C가족</button>
     <button onclick="selectTeam('D가족')">D가족</button>
-
   </div>
-
 </div>
 
 <div id="userTeamScreen">
-
   <div class="user-box">
 
-    <p style="font-size:20px;color:#aaa;">
-      현재 라운드
-    </p>
-
-    <h2 id="userRoundText">
-      R1 : 오픈 경매
-    </h2>
-
-    <div style="margin-top:30px;">
-
-      <p style="font-size:20px;color:#aaa;">
-        현재 경매 물품
-      </p>
-
-      <h2 id="currentAuctionItem" style="color:#00d785;">
-        없음
-      </h2>
-
+    <div class="mobile-card">
+      <div class="mobile-label">현재 라운드</div>
+      <div id="userRoundText" class="mobile-value">R1 : 오픈 경매</div>
     </div>
 
-    <div id="historyBox" style="display:none; margin-top:35px;">
-
-      <h3>📜 최근 낙찰 정보</h3>
-
-      <div id="historyList"></div>
-
+    <div class="mobile-card">
+      <div class="mobile-label">현재 경매 물품</div>
+      <div id="currentAuctionItem" class="mobile-value mobile-item">없음</div>
     </div>
 
-    <div style="margin-top:40px;">
+    <div class="mobile-card">
+      <div class="mobile-label">내 팀</div>
+      <div id="userTeamName" class="mobile-value">A가족</div>
+    </div>
 
-      <h2 id="userTeamName">
-        A가족
-      </h2>
-
-      <p style="margin-top:20px;font-size:22px;font-weight:800;">
-        💰 보유 현금:
+    <div class="mobile-card">
+      <div class="mobile-label">보유 현금</div>
+      <div class="mobile-value mobile-cash">
         <span id="userCash">0</span> 원
-      </p>
-
-      <div style="margin-top:30px;">
-
-        <h3>📦 보유 아이템</h3>
-
-        <div id="userInventory"></div>
-
       </div>
+    </div>
 
-      <div style="margin-top:35px;">
+    <div class="mobile-card">
+      <div class="mobile-label">보유 아이템</div>
+      <div id="userInventory"></div>
+    </div>
 
-        <h3>💸 입찰하기</h3>
+    <div id="historyBox" class="mobile-card" style="display:none;">
+      <div class="mobile-label">최근 낙찰 정보</div>
+      <div id="historyList"></div>
+    </div>
 
-        <div class="input-row">
+    <div class="mobile-card">
+      <div class="mobile-label">입찰하기</div>
 
-          <input
-            id="userBidInput"
-            type="number"
-            placeholder="입찰 금액"
-          >
-
-          <button
-            class="bid-btn"
-            onclick="submitUserBid()"
-          >
-            입찰
-          </button>
-
-        </div>
-
+      <div class="input-row">
+        <input id="userBidInput" type="number" placeholder="입찰 금액 입력">
+        <button class="bid-btn" onclick="submitUserBid()">입찰하기</button>
       </div>
+    </div>
 
-      <div style="margin-top:35px;">
-
-        <button
-          class="small-btn"
-          onclick="backToSelect()"
-        >
-          ← 팀 다시 선택
-        </button>
-
-      </div>
-
+    <div style="margin-top:18px;">
+      <button class="small-btn" onclick="backToSelect()">← 팀 다시 선택</button>
     </div>
 
   </div>
-
 </div>
 
 <div id="resultScreen">
-
-  <h1 class="result-title">
-    🏆 최종 결과
-  </h1>
-
+  <h1 class="result-title">🏆 최종 결과</h1>
   <div id="resultGrid" class="team-grid"></div>
-
 </div>
 
 <div id="adminLayout" class="layout">
-
   <div class="panel">
 
     <h2>🎮 진행자 마스터 패널</h2>
 
     <p>
       현재 라운드:
-      <span id="roundText">
-        R1 : 오픈 경매
-      </span>
+      <span id="roundText">R1 : 오픈 경매</span>
     </p>
 
     <div style="margin-top:20px;">
-
       남은 시간:
-
-      <div class="timer">
-        10:00
-      </div>
-
+      <div class="timer">10:00</div>
     </div>
 
     <div style="margin-top:30px;">
-
-      <button
-        class="round-btn"
-        onclick="changeRound('R1 : 오픈 경매')"
-      >
-        R1 : 오픈 경매
-      </button>
-
-      <button
-        class="round-btn"
-        onclick="changeRound('R2 : 암시장 거래')"
-      >
-        R2 : 암시장 거래
-      </button>
-
-      <button
-        class="round-btn"
-        onclick="changeRound('R3 : 블랙 경매')"
-      >
-        R3 : 블랙 경매
-      </button>
-
-      <button
-        class="round-btn"
-        onclick="changeRound('R4 : 최후의 거래')"
-      >
-        R4 : 최후의 거래
-      </button>
-
-      <button
-        class="round-btn green"
-        onclick="showFinalResults()"
-      >
-        🏆 결과창 열기
-      </button>
-
-      <button
-        class="round-btn gray"
-        onclick="resetGame()"
-      >
-        🔄 게임 초기화
-      </button>
-
+      <button class="round-btn" onclick="changeRound('R1 : 오픈 경매')">R1 : 오픈 경매</button>
+      <button class="round-btn" onclick="changeRound('R2 : 암시장 거래')">R2 : 암시장 거래</button>
+      <button class="round-btn" onclick="changeRound('R3 : 블랙 경매')">R3 : 블랙 경매</button>
+      <button class="round-btn" onclick="changeRound('R4 : 최후의 거래')">R4 : 최후의 거래</button>
+      <button class="round-btn green" onclick="showFinalResults()">🏆 결과창 열기</button>
+      <button class="round-btn gray" onclick="resetGame()">🔄 게임 초기화</button>
     </div>
 
     <div style="margin-top:35px;">
-
       <h3>🎁 현재 경매 물품 설정</h3>
 
       <div class="input-row">
-
-        <input
-          id="itemInput"
-          type="text"
-          placeholder="경매 물품 입력"
-          style="width:220px;"
-        >
-
-        <button
-          class="bid-btn"
-          onclick="setAuctionItem()"
-        >
-          물품 설정
-        </button>
-
-        <button
-          class="green"
-          style="padding:12px 20px;"
-          onclick="finalizeAuction()"
-        >
-          🏆 낙찰
-        </button>
-
+        <input id="itemInput" type="text" placeholder="경매 물품 입력" style="width:220px;">
+        <button class="bid-btn" onclick="setAuctionItem()">물품 설정</button>
+        <button class="green" style="padding:12px 20px;" onclick="finalizeAuction()">🏆 낙찰</button>
       </div>
-
     </div>
 
     <div class="highest-box">
-
       <h3>🏛 실시간 익명 입찰 현황</h3>
 
-      <p style="margin-top:20px;">
-        최고 입찰가
-      </p>
+      <p style="margin-top:20px;">최고 입찰가</p>
 
-      <div id="highestBid" class="highest-price">
-        0 원
-      </div>
+      <div id="highestBid" class="highest-price">0 원</div>
 
       <p style="margin-top:15px;">
         최고 입찰팀:
-        <span id="highestTeam">
-          없음
-        </span>
+        <span id="highestTeam">없음</span>
       </p>
-
     </div>
 
   </div>
 
   <div class="panel">
-
     <h2>👥 가족 본부 실시간 상태판</h2>
-
     <div id="teamGrid" class="team-grid"></div>
-
   </div>
-
 </div>
 
 <script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 
 import {
   getDatabase,
@@ -531,119 +536,65 @@ import {
   update,
   onValue,
   get
-}
-from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
 const firebaseConfig = {
-
   apiKey: "AIzaSyBolb_KOy45aJ60PLrL5RYXqTCsmoWW09g",
-
   authDomain: "black-48f1e.firebaseapp.com",
-
   databaseURL: "https://black-48f1e-default-rtdb.firebaseio.com",
-
   projectId: "black-48f1e",
-
   storageBucket: "black-48f1e.firebasestorage.app",
-
   messagingSenderId: "638367283464",
-
   appId: "1:638367283464:web:bfa70b2ef808564d6814bd",
-
   measurementId: "G-QB4F50LCPD"
-
 };
 
 const app = initializeApp(firebaseConfig);
-
 const db = getDatabase(app);
-
 const roomRef = ref(db,"rooms/main");
 
 const defaultData = {
-
   round:"R1 : 오픈 경매",
-
   currentItem:"없음",
-
   historyVisible:true,
-
   auctionHistory:[],
-
   highestBid:{
     amount:0,
     team:"없음"
   },
-
   teams:{
-
-    "A가족":{
-      cash:500000,
-      inventory:[]
-    },
-
-    "B가족":{
-      cash:500000,
-      inventory:[]
-    },
-
-    "C가족":{
-      cash:500000,
-      inventory:[]
-    },
-
-    "D가족":{
-      cash:500000,
-      inventory:[]
-    }
-
+    "A가족":{ cash:500000, inventory:[] },
+    "B가족":{ cash:500000, inventory:[] },
+    "C가족":{ cash:500000, inventory:[] },
+    "D가족":{ cash:500000, inventory:[] }
   }
-
 };
 
 let currentData = defaultData;
-
 let selectedTeam = null;
 
 async function init(){
-
   const snap = await get(roomRef);
 
   if(!snap.exists()){
-
     await set(roomRef,defaultData);
-
   }
-
 }
 
 function money(v){
-
   return Number(v).toLocaleString("ko-KR");
-
 }
 
 function render(data){
-
   currentData = data;
 
-  document.getElementById("roundText").textContent =
-    data.round;
+  document.getElementById("roundText").textContent = data.round;
+  document.getElementById("userRoundText").textContent = data.round;
+  document.getElementById("currentAuctionItem").textContent = data.currentItem;
+  document.getElementById("highestBid").textContent = money(data.highestBid.amount)+" 원";
+  document.getElementById("highestTeam").textContent = data.highestBid.team;
 
-  document.getElementById("userRoundText").textContent =
-    data.round;
-
-  document.getElementById("currentAuctionItem").textContent =
-    data.currentItem;
-
-  document.getElementById("highestBid").textContent =
-    money(data.highestBid.amount)+" 원";
-
-  document.getElementById("highestTeam").textContent =
-    data.highestBid.team;
-
-  const historyBtn =
-    document.getElementById("historyToggleBtn");
+  const historyBtn = document.getElementById("historyToggleBtn");
 
   historyBtn.textContent =
     data.historyVisible
@@ -653,45 +604,30 @@ function render(data){
   document.getElementById("historyBox").style.display =
     data.historyVisible ? "block" : "none";
 
-  const historyList =
-    document.getElementById("historyList");
-
+  const historyList = document.getElementById("historyList");
   historyList.innerHTML = "";
 
-  data.auctionHistory.forEach(history=>{
+  const history = data.auctionHistory || [];
 
-    const p =
-      document.createElement("p");
-
-    p.style.marginTop = "12px";
-
-    p.innerHTML =
-      `🏆 ${history.team} : ${history.item} (${money(history.price)} 원)`;
-
+  history.forEach(item=>{
+    const p = document.createElement("p");
+    p.style.marginTop = "10px";
+    p.style.fontWeight = "800";
+    p.innerHTML = `🏆 ${item.team} : ${item.item} (${money(item.price)} 원)`;
     historyList.appendChild(p);
-
   });
 
-  const grid =
-    document.getElementById("teamGrid");
-
+  const grid = document.getElementById("teamGrid");
   grid.innerHTML = "";
 
   Object.entries(data.teams).forEach(([name,team])=>{
-
-    const card =
-      document.createElement("div");
-
+    const card = document.createElement("div");
     card.className = "team-card";
 
     card.innerHTML = `
-
       <h3>${name}</h3>
 
-      <p>
-        💰 보유 현금:
-        ${money(team.cash)} 원
-      </p>
+      <p>💰 보유 현금: ${money(team.cash)} 원</p>
 
       <p>
         💸 현재 최고 입찰:
@@ -703,379 +639,258 @@ function render(data){
       </p>
 
       <div style="margin-top:18px;">
-
         ${
-          team.inventory.map(item=>
-
-            `<span class="inventory">${item}</span>`
-
-          ).join("")
+          team.inventory.length
+          ? team.inventory.map(item=>`<span class="inventory">${item}</span>`).join("")
+          : `<span style="color:#aaa;">보유 아이템 없음</span>`
         }
-
       </div>
 
       <div class="input-row">
-
-        <input
-          id="bid-${name}"
-          type="number"
-          placeholder="입찰 금액"
-        >
-
-        <button
-          class="bid-btn"
-          onclick="placeBid('${name}')"
-        >
-          입찰
-        </button>
-
+        <input id="bid-${name}" type="number" placeholder="입찰 금액">
+        <button class="bid-btn" onclick="placeBid('${name}')">입찰</button>
       </div>
-
     `;
 
     grid.appendChild(card);
-
   });
 
   renderUser();
-
 }
 
 function renderUser(){
-
   if(!selectedTeam) return;
 
-  const team =
-    currentData.teams[selectedTeam];
+  const team = currentData.teams[selectedTeam];
 
-  document.getElementById("userTeamName").textContent =
-    selectedTeam;
+  document.getElementById("userTeamName").textContent = selectedTeam;
+  document.getElementById("userCash").textContent = money(team.cash);
 
-  document.getElementById("userCash").textContent =
-    money(team.cash);
-
-  const inventory =
-    document.getElementById("userInventory");
-
+  const inventory = document.getElementById("userInventory");
   inventory.innerHTML = "";
 
+  if(!team.inventory || team.inventory.length === 0){
+    inventory.innerHTML = `<p style="color:#aaa; margin-top:8px;">보유 아이템 없음</p>`;
+    return;
+  }
+
   team.inventory.forEach(item=>{
-
-    const span =
-      document.createElement("span");
-
+    const span = document.createElement("span");
     span.className = "inventory";
-
     span.textContent = item;
-
     inventory.appendChild(span);
-
   });
-
 }
 
 window.placeBid = async function(team){
-
-  const amount =
-    Number(document.getElementById(`bid-${team}`).value);
+  const amount = Number(document.getElementById(`bid-${team}`).value);
 
   if(!amount || amount <= 0){
-
     alert("입찰 금액을 입력하세요.");
-
     return;
-
   }
 
   if(amount <= currentData.highestBid.amount){
-
     alert("현재 최고 입찰가보다 높아야 합니다.");
-
     return;
+  }
 
+  if(amount > currentData.teams[team].cash){
+    alert("보유 현금보다 큰 금액은 입찰할 수 없습니다.");
+    return;
   }
 
   await update(roomRef,{
-
-    highestBid:{
-      amount,
-      team
-    }
-
+    highestBid:{ amount, team }
   });
 
-  alert(
-    `${team} 팀이 ${money(amount)} 원으로 입찰했습니다.`
-  );
-
+  alert(`${team} 팀이 ${money(amount)} 원으로 입찰했습니다.`);
 };
 
 window.submitUserBid = async function(){
+  const amount = Number(document.getElementById("userBidInput").value);
 
-  const amount =
-    Number(document.getElementById("userBidInput").value);
+  if(!selectedTeam){
+    alert("팀을 먼저 선택하세요.");
+    return;
+  }
 
   if(!amount || amount <= 0){
-
     alert("입찰 금액을 입력하세요.");
-
     return;
-
   }
 
   if(amount <= currentData.highestBid.amount){
-
     alert("현재 최고 입찰가보다 높아야 합니다.");
-
     return;
+  }
 
+  if(amount > currentData.teams[selectedTeam].cash){
+    alert("보유 현금보다 큰 금액은 입찰할 수 없습니다.");
+    return;
   }
 
   await update(roomRef,{
-
     highestBid:{
       amount,
       team:selectedTeam
     }
-
   });
 
-  alert(
-    `${selectedTeam} 팀이 ${money(amount)} 원으로 입찰했습니다.`
-  );
+  document.getElementById("userBidInput").value = "";
 
+  alert(`${selectedTeam} 팀이 ${money(amount)} 원으로 입찰했습니다.`);
 };
 
 window.changeRound = async function(round){
-
-  await update(roomRef,{
-    round
-  });
-
+  await update(roomRef,{ round });
 };
 
 window.setAuctionItem = async function(){
+  const item = document.getElementById("itemInput").value.trim();
 
-  const item =
-    document.getElementById("itemInput").value;
-
-  if(!item) return;
+  if(!item){
+    alert("경매 물품을 입력하세요.");
+    return;
+  }
 
   await update(roomRef,{
-    currentItem:item
+    currentItem:item,
+    highestBid:{
+      amount:0,
+      team:"없음"
+    }
   });
 
+  document.getElementById("itemInput").value = "";
 };
 
 window.finalizeAuction = async function(){
-
-  const winner =
-    currentData.highestBid.team;
+  const winner = currentData.highestBid.team;
 
   if(winner === "없음"){
-
     alert("입찰 팀 없음");
-
     return;
-
   }
 
-  const item =
-    currentData.currentItem;
+  if(currentData.currentItem === "없음"){
+    alert("현재 경매 물품이 없습니다.");
+    return;
+  }
 
-  const inventory =
-    currentData.teams[winner].inventory || [];
-
+  const item = currentData.currentItem;
+  const inventory = currentData.teams[winner].inventory || [];
   inventory.push(item);
 
-  const cash =
-    currentData.teams[winner].cash -
-    currentData.highestBid.amount;
+  const cash = currentData.teams[winner].cash - currentData.highestBid.amount;
 
-  const history =
-    currentData.auctionHistory || [];
+  const history = currentData.auctionHistory || [];
 
   history.unshift({
-
     team:winner,
-
     item,
-
     price:currentData.highestBid.amount
-
   });
 
   await update(roomRef,{
-
     [`teams/${winner}`]:{
-
       cash,
-
       inventory
-
     },
-
     auctionHistory:history,
-
     highestBid:{
-
       amount:0,
-
       team:"없음"
-
     },
-
     currentItem:"없음"
-
   });
 
-  alert(`${winner} 팀이 낙찰 받았습니다.`);
-
+  alert(`${winner} 팀이 ${item}을(를) 낙찰 받았습니다.`);
 };
 
 window.resetGame = async function(){
+  const ok = confirm("정말 게임을 초기화할까요? 모든 아이템과 입찰 기록이 사라집니다.");
+
+  if(!ok) return;
 
   await set(roomRef,defaultData);
 
   alert("게임이 초기화되었습니다.");
-
 };
 
 window.toggleHistoryView = async function(){
-
   await update(roomRef,{
-
-    historyVisible:
-      !currentData.historyVisible
-
+    historyVisible:!currentData.historyVisible
   });
-
 };
 
 window.showFinalResults = function(){
+  document.getElementById("adminLayout").style.display = "none";
+  document.getElementById("teamSelectScreen").style.display = "none";
+  document.getElementById("userTeamScreen").style.display = "none";
+  document.getElementById("resultScreen").style.display = "block";
 
-  document.getElementById("adminLayout").style.display =
-    "none";
-
-  document.getElementById("teamSelectScreen").style.display =
-    "none";
-
-  document.getElementById("userTeamScreen").style.display =
-    "none";
-
-  document.getElementById("resultScreen").style.display =
-    "block";
-
-  const resultGrid =
-    document.getElementById("resultGrid");
-
+  const resultGrid = document.getElementById("resultGrid");
   resultGrid.innerHTML = "";
 
   Object.entries(currentData.teams).forEach(([name,team])=>{
-
-    const card =
-      document.createElement("div");
-
+    const card = document.createElement("div");
     card.className = "team-card";
 
     card.innerHTML = `
-
       <h3>${name}</h3>
-
-      <p>
-        💰 현금:
-        ${money(team.cash)} 원
-      </p>
+      <p>💰 현금: ${money(team.cash)} 원</p>
 
       <div style="margin-top:18px;">
-
         ${
-          team.inventory.map(item=>
-
-            `<span class="inventory">${item}</span>`
-
-          ).join("")
+          team.inventory.length
+          ? team.inventory.map(item=>`<span class="inventory">${item}</span>`).join("")
+          : `<span style="color:#aaa;">보유 아이템 없음</span>`
         }
-
       </div>
-
     `;
 
     resultGrid.appendChild(card);
-
   });
-
 };
 
 window.switchMode = function(mode){
-
-  document.getElementById("resultScreen").style.display =
-    "none";
+  document.getElementById("resultScreen").style.display = "none";
 
   if(mode === "admin"){
-
-    document.getElementById("adminLayout").style.display =
-      "grid";
-
-    document.getElementById("teamSelectScreen").style.display =
-      "none";
-
-    document.getElementById("userTeamScreen").style.display =
-      "none";
-
+    document.getElementById("adminLayout").style.display = "grid";
+    document.getElementById("teamSelectScreen").style.display = "none";
+    document.getElementById("userTeamScreen").style.display = "none";
+  } else {
+    document.getElementById("adminLayout").style.display = "none";
+    document.getElementById("teamSelectScreen").style.display = "block";
+    document.getElementById("userTeamScreen").style.display = "none";
   }
-
-  else{
-
-    document.getElementById("adminLayout").style.display =
-      "none";
-
-    document.getElementById("teamSelectScreen").style.display =
-      "block";
-
-  }
-
 };
 
 window.selectTeam = function(team){
-
   selectedTeam = team;
 
-  document.getElementById("teamSelectScreen").style.display =
-    "none";
-
-  document.getElementById("userTeamScreen").style.display =
-    "block";
+  document.getElementById("teamSelectScreen").style.display = "none";
+  document.getElementById("userTeamScreen").style.display = "block";
 
   renderUser();
-
 };
 
 window.backToSelect = function(){
-
-  document.getElementById("userTeamScreen").style.display =
-    "none";
-
-  document.getElementById("teamSelectScreen").style.display =
-    "block";
-
+  document.getElementById("userTeamScreen").style.display = "none";
+  document.getElementById("teamSelectScreen").style.display = "block";
 };
 
 onValue(roomRef,(snapshot)=>{
-
-  const data =
-    snapshot.val();
+  const data = snapshot.val();
 
   if(data){
-
     render(data);
-
   }
-
 });
 
 init();
-
 </script>
 
 </body>
